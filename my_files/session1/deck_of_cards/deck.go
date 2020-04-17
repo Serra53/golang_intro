@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"os"
+	"strings"
 )
 
 //Create a new type of deck
@@ -15,13 +18,13 @@ func newDeck() deck {
 	cardSuits := []string{"Spades", "Hearts",
 		"Diamonds", "Clubs"}
 	cardNumbers := []string{
-		"Aces", "Two", "Three", "Four", "Five",
+		"Ace", "Two", "Three", "Four", "Five",
 		"Six", "Seven", "Eight", "Nine", "Ten",
 		"Jack", "Queen", "King"}
 
 	for _, s := range cardSuits {
 		for _, n := range cardNumbers {
-			newCard := s + " of " + n
+			newCard := n + " of " + s
 			newDeck = append(newDeck, newCard)
 		}
 	}
@@ -45,4 +48,22 @@ func (d deck) shuffle() deck {
 		d[i], d[j] = d[j], d[i]
 	}
 	return d
+}
+
+func (d deck) toString() string {
+	return strings.Join([]string(d), ",")
+}
+
+func (d deck) saveToFile(filename string) error {
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
+}
+
+func newDeckFromFile(filename string) deck {
+	bs, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	deckString := strings.Split(string(bs), "s")
+	return deck(deckString)
 }
