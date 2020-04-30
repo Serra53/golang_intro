@@ -39,7 +39,8 @@ func main() {
 	}
 	employees := []SalaryCalculator{pemp1, pemp2, pemp3, cemp1}
 	fmt.Println(employees)
-	fmt.Printf("%T\n", employees)
+	fmt.Printf("type: %T ->> value: %v\n", employees, employees)
+	fmt.Printf("type: %T ->> value: %v\n", employees[0], employees[0])
 	totalExpense(employees)
 
 }
@@ -57,5 +58,5 @@ func totalExpense(s []SalaryCalculator) {
 	for _, v := range s {
 		expense = expense + v.CalculateSalary()
 	}
-	fmt.Printf("Total HR expense per month $%d", expense)
+	fmt.Printf("Total HR expense per month $%d\n", expense)
 }

@@ -33,8 +33,11 @@ func main() {
 	//give me the memory adress of the value this variable is pointing at
 	person1Pointer := &person1
 	fmt.Println(person1Pointer)
-	person1Pointer.updateFirstName("Michael")
+	person1Pointer.updateName("Michael", "Cera")
 	person1.print()
+	person1Pointer.updateName("Thomas", "Crown")
+	person1.print()
+	fmt.Println("This is the address to a pointer", *person1Pointer)
 }
 
 func (p person) print() {
@@ -44,6 +47,15 @@ func (p person) print() {
 //In the code below
 //*person is a type of pointer to person
 //*pointerToPerson is the actual memory value
-func (pointerToPerson *person) updateFirstName(newFirstName string) {
+func (pointerToPerson *person) updateName(newFirstName string,
+	newLastName string) {
+	oldFirstName := (*pointerToPerson).firstName
+	oldLastName := (*pointerToPerson).lastName
+
 	(*pointerToPerson).firstName = newFirstName
+	(*pointerToPerson).lastName = newLastName
+	fmt.Printf("Name altered from %v to %v \n", oldFirstName+" "+oldLastName,
+		newFirstName+" "+newLastName)
 }
+
+//you can also use the function about directly to a person struct
